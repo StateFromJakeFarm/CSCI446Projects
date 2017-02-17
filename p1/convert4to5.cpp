@@ -77,17 +77,17 @@ int main() {
     cout << "please enter a message: " << endl;
     getline(cin, msg);
 
-    cout << "your message        : " << msg << endl;
+    cout << "your message " << msg << endl;
 
     string binaryMsg = stringToBinary(msg);
-    cout << "in binary           : " << binaryMsg << endl;
+    cout << "in binary: " << binaryMsg << endl;
 
     string encodedMsg = "";
     for(unsigned int i=0; i<binaryMsg.length(); i+=4) {
         string nextCharBinary = convert4Bto5B(binaryMsg.substr(i, 4));
         encodedMsg += nextCharBinary;
     }
-    cout << "encoded in 4B/5B to : " << encodedMsg << endl;
+    cout << "is encode using 4B/5B to: " << encodedMsg << endl;
 
     return 0;
 }
