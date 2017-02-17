@@ -1,3 +1,11 @@
+/**
+ * Project 1: convert4to5.cpp
+ * 
+ * Authored by: Takumi Nishida AND Jacob Hansen
+ * CSCI 446 
+ */
+
+
 #include <iostream>
 #include <cmath>
 #include <unordered_map>
