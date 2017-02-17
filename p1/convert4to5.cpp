@@ -77,7 +77,7 @@ int main() {
     cout << "please enter a message: " << endl;
     getline(cin, msg);
 
-    cout << "your message:       : " << msg << endl;
+    cout << "your message        : " << msg << endl;
 
     string binaryMsg = stringToBinary(msg);
     cout << "in binary           : " << binaryMsg << endl;
