@@ -63,7 +63,7 @@ string stringToBinary (const string& inStr) {
 
 
 // MAIN //
-int main() {
+int main(int argc, char* argv[]) {
     // populate the dictionary
     dictTable["0000"] = "11110";
     dictTable["0001"] = "01001";
