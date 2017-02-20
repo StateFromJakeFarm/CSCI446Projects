@@ -1,3 +1,11 @@
+#
+# Project 1: Makefile
+# 
+# Authored by: Takumi Nishida AND Jacob Hansen
+# CSCI 446 
+# Spring semester
+#
+
 CC	 = g++
 CFLAGS = -std=c++11 -Wall -Werror -pedantic
 

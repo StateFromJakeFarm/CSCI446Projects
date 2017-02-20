@@ -3,6 +3,7 @@
  * 
  * Authored by: Takumi Nishida AND Jacob Hansen
  * CSCI 446 
+ * Spring semester
  */
 
 
