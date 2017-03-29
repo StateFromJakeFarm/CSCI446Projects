@@ -37,13 +37,23 @@ ssize_t readchunck( int sockfd, void *buf, size_t len );
 
 
 int main( int argc, char *argv[] ) {
+    // parse CLI args
     if(argc != 3) {
         printf("Usage: ./t-counter <len> \"<search string>\"\n");
         return 1;
     }
-
-    unsigned int len;
+    int len = atoi(argv[1]);
     char searchStr[100];
+    strcpy(searchStr, argv[2]);
+
+    // connect to server
+    struct hostent* serv = gethostbyname(SERVER_NAME);
+    if(serv == NULL) {
+        printf("ERROR: could not connect to host at %s\n", SERVER_NAME);
+        return 1;
+    }
+
+    
 
     return 0;
 }
@@ -54,3 +64,15 @@ ssize_t readchunck( int sockfd, void *buf, size_t len ) {
 */
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
