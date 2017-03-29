@@ -9,6 +9,14 @@
  * prove useful.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <string.h>
+#include <unistd.h>
+
 #define SERVER_NAME "www.ecst.csuchico.edu"
 #define SERVER_PORT "80"
 #define REQUEST "GET /~ehamouda/file.html HTTP/1.0\n\n"
@@ -28,18 +36,21 @@
 ssize_t readchunck( int sockfd, void *buf, size_t len );
 
 
-int main( int argc, char *argv[] ) 
-{
+int main( int argc, char *argv[] ) {
+    if(argc != 3) {
+        printf("Usage: ./t-counter <len> \"<search string>\"\n");
+        return 1;
+    }
 
-    /* Call readchunck in here ... */
+    unsigned int len;
+    char searchStr[100];
 
     return 0;
 }
 
-ssize_t readchunck( int sockfd, void *buf, size_t len ) 
-{
+ssize_t readchunck( int sockfd, void *buf, size_t len ) {
 
     /* Define readchunck to return exactly len bytes unless an error occurs or the socket closes. 
 */
-
+    
 }
