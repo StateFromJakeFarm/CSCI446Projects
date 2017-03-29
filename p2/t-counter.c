@@ -46,14 +46,24 @@ int main( int argc, char *argv[] ) {
     char searchStr[100];
     strcpy(searchStr, argv[2]);
 
-    // connect to server
+    // get server IP
     struct hostent* serv = gethostbyname(SERVER_NAME);
     if(serv == NULL) {
         printf("ERROR: could not connect to host at %s\n", SERVER_NAME);
         return 1;
     }
 
-    
+    // define our socket
+    struct sockaddr_in servAddr;
+    servAddr.sin_family = AF_INET;
+    servAddr.sin_port = htons(atoi(SERVER_PORT));
+
+    // create socket
+    int mySockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if(mySockfd < 0) {
+        perror("socket");
+        return 1;
+    }
 
     return 0;
 }
