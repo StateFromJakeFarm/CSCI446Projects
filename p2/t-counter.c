@@ -98,6 +98,18 @@ int main( int argc, char *argv[] ) {
         memset(&buffer, '\0', sizeof(buffer));
         charsInChunk = readchunck(sfd, buffer, len);
 
+        unsigned int curIndex = 0;
+        for(int i=0; i<charsInChunk; i++) {
+            if(searchStr[curIndex] == buffer[curIndex]) {
+                ++curIndex;
+
+                if(curIndex == strlen(searchStr)) {
+                    ++strCount;
+                    curIndex = 0;
+                }
+            } else
+                curIndex = 0;
+        }
     } while(charsInChunk != 1);
 
     printf("Number of %s instances: %i\n", searchStr, strCount);
