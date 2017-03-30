@@ -46,24 +46,45 @@ int main( int argc, char *argv[] ) {
     char searchStr[100];
     strcpy(searchStr, argv[2]);
 
-    // get server IP
-    struct hostent* serv = gethostbyname(SERVER_NAME);
-    if(serv == NULL) {
-        printf("ERROR: could not connect to host at %s\n", SERVER_NAME);
+    // define our socket model
+    struct addrinfo hints;
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = 0;
+    hints.ai_protocol = 0;
+    memset(&hints, 0, sizeof(hints));
+
+    // create addrinfo pointer to "hold" all potential
+    // address structures
+    struct addrinfo *results;
+    if(getaddrinfo(SERVER_NAME, SERVER_PORT, &hints, &results) != 0) {
+        perror("getaddrinfo");
         return 1;
     }
 
-    // define our socket
-    struct sockaddr_in servAddr;
-    servAddr.sin_family = AF_INET;
-    servAddr.sin_port = htons(atoi(SERVER_PORT));
+    // loop until we find an address struct we can connect to
+    struct addrinfo *rp = results;
+    int sfd;
+    while(rp != NULL) {
+        sfd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
 
-    // create socket
-    int mySockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if(mySockfd < 0) {
-        perror("socket");
+        if(sfd == -1)
+            continue;
+
+        if(connect(sfd, rp->ai_addr, rp->ai_addrlen) != -1)
+            break;
+
+        close(sfd);
+
+        rp = rp->ai_next;
+    }
+
+    if(rp == NULL) {
+        fprintf(stderr, "Could not connect\n");
         return 1;
     }
+
+    
 
     return 0;
 }
