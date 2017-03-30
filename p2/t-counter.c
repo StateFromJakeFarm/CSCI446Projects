@@ -33,7 +33,7 @@
  *   (3) if the socket closes without receiving len bytes, then return the number
  *       actually received, which may be zero
  ***************************************************************/
-ssize_t readchunck( int sockfd, char *buf, size_t len );
+ssize_t readchunck( int sockfd, void *buf, size_t len );
 
 
 int main( int argc, char *argv[] ) {
@@ -92,40 +92,29 @@ int main( int argc, char *argv[] ) {
 
     int strCount = 0;
     ssize_t charsInChunk = 0;
-    char *buffer;
+    char buffer[10000];
 
     do {
         memset(&buffer, '\0', sizeof(buffer));
         charsInChunk = readchunck(sfd, buffer, len);
-    } while(charsInChunk > 0);
+
+    } while(charsInChunk != 1);
+
+    printf("Number of %s instances: %i\n", searchStr, strCount);
 
     return 0;
 }
 
-ssize_t readchunck( int sockfd, char *buf, size_t len ) {
-
-    /* Define readchunck to return exactly len bytes unless an error occurs or the socket closes. 
-*/
-    if(recv(sockfd, buf, len, 0) == -1) {
+ssize_t readchunck( int sockfd, void *buf, size_t len ) {
+    char *myBuf = (char*) buf;
+    if(recv(sockfd, myBuf, len, 0) == -1) {
         return -1;
     }
 
-    int i = 0;
-    for(char cur = buf[i]; cur != '\0'; i++)
-        printf("%c", cur);
-    printf("\n");
+    char cur = '~';
+    unsigned int i;
+    for(i = 0; i<len && cur != '\0'; i++)
+        cur = myBuf[i];
 
     return i;
 }
-
-
-
-
-
-
-
-
-
-
-
-
