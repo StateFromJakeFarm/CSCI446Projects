@@ -39,7 +39,7 @@ ssize_t readchunck( int sockfd, void *buf, size_t len );
 int main( int argc, char *argv[] ) {
     // parse CLI args
     if(argc != 3) {
-        printf("Usage: ./t-counter <len> \"<search string>\"\n");
+        puts("Usage: ./t-counter <len> \"<search string>\"");
         return 1;
     }
     int len = atoi(argv[1]);
@@ -97,6 +97,10 @@ int main( int argc, char *argv[] ) {
     do {
         memset(&buffer, '\0', sizeof(buffer));
         charsInChunk = readchunck(sfd, buffer, len);
+        if(charsInChunk == -1) {
+            fprintf(stderr, "ERROR: could not retrieve chunk\n");
+            return 1;
+        }
 
         unsigned int j = 0;
         for(int i=0; i<charsInChunk; i++) {
