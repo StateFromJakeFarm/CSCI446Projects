@@ -85,6 +85,8 @@ int main( int argc, char *argv[] ) {
         rp = rp->ai_next;
     }
 
+    freeaddrinfo(results);
+
     // couldn't find an address to connect to
     if(rp == NULL) {
         fprintf(stderr, "ERROR: Could not connect\n");
