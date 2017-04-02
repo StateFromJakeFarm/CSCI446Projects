@@ -46,6 +46,12 @@ int main( int argc, char *argv[] ) {
     char search[100];
     strcpy(search, argv[2]);
 
+    // length of buffer must be 1-1000
+    if(len < 0 || len > 1000) {
+        fprintf(stderr, "ERROR: buffer length must be in range [1, 1000]\n");
+        return 1;
+    }
+
     // define our socket model
     struct addrinfo hints;
     hints.ai_family = AF_INET;
@@ -81,7 +87,7 @@ int main( int argc, char *argv[] ) {
 
     // couldn't find an address to connect to
     if(rp == NULL) {
-        fprintf(stderr, "Could not connect\n");
+        fprintf(stderr, "ERROR: Could not connect\n");
         return 1;
     }
 
