@@ -43,8 +43,8 @@ int main( int argc, char *argv[] ) {
         return 1;
     }
     int len = atoi(argv[1]);
-    char searchStr[100];
-    strcpy(searchStr, argv[2]);
+    char search[100];
+    strcpy(search, argv[2]);
 
     // define our socket model
     struct addrinfo hints;
@@ -91,28 +91,28 @@ int main( int argc, char *argv[] ) {
     }
 
     int strCount = 0;
-    ssize_t charsInChunk = 0;
-    char buffer[10000];
+    ssize_t charsInChunk;
+    char buffer[1000];
 
     do {
         memset(&buffer, '\0', sizeof(buffer));
         charsInChunk = readchunck(sfd, buffer, len);
 
-        unsigned int curIndex = 0;
+        unsigned int j = 0;
         for(int i=0; i<charsInChunk; i++) {
-            if(searchStr[curIndex] == buffer[curIndex]) {
-                ++curIndex;
-
-                if(curIndex == strlen(searchStr)) {
+            if(search[j] == buffer[i]) {
+                ++j;
+                if(j == strlen(search)) {
                     ++strCount;
-                    curIndex = 0;
+                    j = 0;
                 }
-            } else
-                curIndex = 0;
+            } else {
+                j = 0;
+            }
         }
     } while(charsInChunk != 1);
 
-    printf("Number of %s instances: %i\n", searchStr, strCount);
+    printf("Number of %s instances: %i\n", search, strCount);
 
     return 0;
 }
@@ -125,7 +125,7 @@ ssize_t readchunck( int sockfd, void *buf, size_t len ) {
 
     char cur = '~';
     unsigned int i;
-    for(i = 0; i<len && cur != '\0'; i++)
+    for(i=0; i<len && cur!='\0'; i++)
         cur = myBuf[i];
 
     return i;
