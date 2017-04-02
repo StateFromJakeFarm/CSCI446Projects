@@ -146,7 +146,7 @@ int main( int argc, char *argv[] ) {
 
 ssize_t readchunck( int sockfd, void *buf, size_t len ) {
     // for some reason the function prototype we were given requires a
-    // void* type, so typecast to a char*
+    // void* type, so typecast to a char* for use in recv()
     char *myBuf = (char*) buf;
 
     // recv() returned an error
