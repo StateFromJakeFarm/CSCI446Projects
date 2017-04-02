@@ -134,6 +134,9 @@ int main( int argc, char *argv[] ) {
         }
     } while(charsInChunk != 0);
 
+    // close connection to server after transfering whole file
+    close(sfd);
+
     printf("Number of %s instances: %i\n", search, searchCount);
 
     return 0;
