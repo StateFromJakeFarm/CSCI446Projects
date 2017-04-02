@@ -43,7 +43,7 @@ int main( int argc, char *argv[] ) {
         return 1;
     }
     int len = atoi(argv[1]);
-    char search[100];
+    char search[1000];
     strcpy(search, argv[2]);
 
     // length of buffer must be 1-1000
