@@ -114,7 +114,8 @@ int main( int argc, char *argv[] ) {
                 j = 0;
             }
         }
-    } while(charsInChunk != 1);
+        printf("%i\n", strlen(buffer));
+    } while(charsInChunk != 0);
 
     printf("Number of %s instances: %i\n", search, strCount);
 
@@ -127,10 +128,5 @@ ssize_t readchunck( int sockfd, void *buf, size_t len ) {
         return -1;
     }
 
-    char cur = '~';
-    unsigned int i;
-    for(i=0; i<len && cur!='\0'; i++)
-        cur = myBuf[i];
-
-    return i;
+    return strlen(myBuf);
 }
