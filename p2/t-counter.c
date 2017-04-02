@@ -1,6 +1,6 @@
 /*
- * Student A Name
- * Student B Name
+ * Jacob Hansen
+ * <NAME HERE>
  * CSCI 446
  * Spring 2016
  *
@@ -79,54 +79,70 @@ int main( int argc, char *argv[] ) {
         rp = rp->ai_next;
     }
 
+    // couldn't find an address to connect to
     if(rp == NULL) {
         fprintf(stderr, "Could not connect\n");
         return 1;
     }
 
-    // send request
+    // send our GET request
     if(send(sfd, REQUEST, strlen(REQUEST), 0) == -1) {
         perror("send");
         return 1;
     }
 
-    int strCount = 0;
+    // number of search strings found in html file
+    int searchCount = 0;
+    // number of characters in the last chunk received
     ssize_t charsInChunk;
+    // set buffer to maximum allowed size
     char buffer[1000];
 
+    // keep receiving and processing chunks until the html file
+    // is complete
     do {
+        // clear buffer
         memset(&buffer, '\0', sizeof(buffer));
+        // fill buffer with 'charsInChunk' number of characters
         charsInChunk = readchunck(sfd, buffer, len);
+
+        // we could not retreive the chunk
         if(charsInChunk == -1) {
             fprintf(stderr, "ERROR: could not retrieve chunk\n");
             return 1;
         }
 
+        // loop through each character in received chunk to find
+        // all occurrences of the substring
         unsigned int j = 0;
         for(int i=0; i<charsInChunk; i++) {
             if(search[j] == buffer[i]) {
                 ++j;
                 if(j == strlen(search)) {
-                    ++strCount;
+                    ++searchCount;
                     j = 0;
                 }
             } else {
                 j = 0;
             }
         }
-        printf("%i\n", strlen(buffer));
     } while(charsInChunk != 0);
 
-    printf("Number of %s instances: %i\n", search, strCount);
+    printf("Number of %s instances: %i\n", search, searchCount);
 
     return 0;
 }
 
 ssize_t readchunck( int sockfd, void *buf, size_t len ) {
+    // for some reason the function prototype we were given requires a
+    // void* type, so typecast to a char*
     char *myBuf = (char*) buf;
+
+    // recv() returned an error
     if(recv(sockfd, myBuf, len, 0) == -1) {
         return -1;
     }
 
+    // return number of bytes (characters) in this chunk
     return strlen(myBuf);
 }
